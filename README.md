@@ -1,4 +1,4 @@
-# sfree
+# SFree
 
 A new Flutter project.
 
