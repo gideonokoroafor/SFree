@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:sfree/views/title_display.dart';
 import '../utils/mybuttons.dart';
+import 'home_page.dart';
 
 class UserLogin extends StatefulWidget {
   const UserLogin({Key? key}) : super(key: key);
@@ -11,37 +13,41 @@ class UserLogin extends StatefulWidget {
 }
 
 class _UserLoginState extends State<UserLogin> {
+  bool _rememberMe = false;
+  static const IconData flatware = IconData(0xe296, fontFamily: 'MaterialIcons');
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
       home: Builder(
         builder: (context) => Scaffold(
-          appBar: AppBar(
-            title: const Text("SFree"),
-            centerTitle: true,
+          // appBar: AppBar(
+          //   title: const Text("App"),
+          // ),
+          bottomNavigationBar: BottomAppBar(
+            color: Colors.transparent,
+            child: _signUpButton(context),
+            elevation: 0,
           ),
           body: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.pink, Colors.black]
-              )
-            ),
             child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  const TitleDisplay(),
-                  _createSignUpLogo(),
-                  _createTextFields(),
-                  _createLogInButton(context),
-                  _createForgotPasswordButton(context),
-                  _createSignUpButton(context),
-                ],
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      const Icon(flatware, size: 100,),
+                      const SizedBox(height: 10.0),
+                      // const Text("Sign In",
+                      //   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30,),
+                      // ),
+                      _createLogin(),
+                      _rememberMeCheckBox(),
+                      _logInButton(context),
+                      _alternateLogIn(),
+                      // _signUpButton(context)
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -50,97 +56,151 @@ class _UserLoginState extends State<UserLogin> {
     );
   }
 
-  _createSignUpLogo() {
-    return Container(
-        margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
-        child: const Text('Log in', style: TextStyle(fontSize: 32)));
-  }
-
-  _createTextFields() {
-    return Column(
-      children: [
-        Container(
-            margin: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: TextField(
-              style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
-              decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.pinkAccent, width: 3.0),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromARGB(221, 75, 75, 75), width: 2.0),
-                  ),
-                  labelText: 'Please enter your email!',
-                  filled: true,
-                  fillColor: Colors.transparent),
-              onChanged: (String? email) {
-                setState(() {
-                  // _userEmail = email!;
-                });
-              },
-            )),
-        Container(
-            margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
-            child: TextField(
-              style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
-              obscureText: true,
-              decoration: const InputDecoration(
+  _createLogin(){
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Email"),
+          const SizedBox(height: 10.0),
+          TextField(
+            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+            decoration: const InputDecoration(
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.pinkAccent, width: 3.0),
+                  borderSide: BorderSide(color: Colors.black38, width: 3.0),
                 ),
                 enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Color.fromARGB(221, 75, 75, 75), width: 2.0)),
-                labelText: 'Password',
+                  borderSide: BorderSide(
+                      color: Color.fromARGB(221, 75, 75, 75), width: 2.0),
+                ),
+                prefixIcon: Icon(Icons.email_outlined, color: Colors.black38,),
+                labelText: 'Please enter your email!',
                 filled: true,
-                fillColor: Colors.transparent,
+                fillColor: Colors.transparent),
+            onChanged: (String? email) {
+              setState(() {
+                // _userEmail = email!;
+              });
+            },
+          ),
+          const SizedBox(height: 10.0),
+          const Text("Password"),
+          const SizedBox(height: 10.0),
+          TextField(
+            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
+            obscureText: true,
+            decoration: const InputDecoration(
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black38, width: 3.0),
               ),
-              onChanged: (String? password) {
-                setState(() {
-                  // _userPass = password!;
-                });
-              },
-            ))
+              enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Color.fromARGB(221, 75, 75, 75), width: 2.0)),
+              prefixIcon: Icon(Icons.lock_outline, color: Colors.black38,),
+              labelText: 'Password',
+              filled: true,
+              fillColor: Colors.transparent,
+            ),
+            onChanged: (String? password) {
+              setState(() {
+                // _userPass = password!;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  _forgotPassword(){
+    return Container(
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: TextButton(
+          child: const Text("Forgot Password?", style: TextStyle(color: Colors.black),),
+          onPressed: () {
+            print("pressed");
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (BuildContext context) {
+            //   return ForgotPassword();
+            // }));
+          },
+        ));
+  }
+  
+  _rememberMeCheckBox(){
+    return Row(
+      children: <Widget>[
+        Checkbox(
+            value: _rememberMe,
+            activeColor: Colors.white,
+            checkColor: Colors.lightBlue,
+            onChanged: (value) {setState(() {
+              _rememberMe = value!;
+            });
+        }),
+        const SizedBox(width: 5.0),
+        const Text("Remember me",),
+        const SizedBox(width: 83.0),
+        _forgotPassword()
       ],
     );
   }
 
-  _createLogInButton(BuildContext context) {
+  _logInButton(BuildContext context) {
     return Container(
         margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
         child: MyButton(
             label: 'Log In!',
-            width: 120,
+            width: 250,
             height: 50,
-            color: Colors.pinkAccent,
+            color: Colors.black45,
             onTap: () {
               // _onSignIn(context);
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return const HomePage();
+              }));
             }));
   }
 
-  _createSignUpButton(BuildContext context) {
-    return TextButton(
-      child: const Text("Don't have an account? Sign up here!"),
-      onPressed: () {
-        // Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (BuildContext context) {
-        //   return SignIn();
-        // }));
-      },
+  _alternateLogIn(){
+    return Column(
+      children: <Widget>[
+        const SizedBox(height: 10.0),
+        const Text("- OR -"),
+        const SizedBox(height: 10.0),
+        const Text("Sign in with"),
+        const SizedBox(height: 10.0),
+        SignInButton(
+          Buttons.GoogleDark,
+          onPressed: () {},
+        ),
+        SignInButton(
+          Buttons.FacebookNew,
+          onPressed: () {},
+        ),
+        SignInButton(
+          Buttons.AppleDark,
+          onPressed: () {},
+        ),
+      ],
     );
   }
 
-  _createForgotPasswordButton(BuildContext context) {
-    return TextButton(
-      child: const Text("Forgot Password?"),
-      onPressed: () {
-        // Navigator.of(context)
-        //     .push(MaterialPageRoute(builder: (BuildContext context) {
-        //   return ForgotPassword();
-        // }));
-      },
-    );
+  _signUpButton(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.only(left: 10, right: 10,),
+        child: TextButton(
+          child: const Text("Don't have an account? Sign up!",
+              style: TextStyle(color: Colors.black)),
+          onPressed: () {
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (BuildContext context) {
+            //   return SignIn();
+            // }));
+          },
+        ));
   }
 
 }
