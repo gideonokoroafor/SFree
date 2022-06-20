@@ -25,11 +25,18 @@ class _UserLoginState extends State<UserLogin> {
           //   title: const Text("App"),
           // ),
           bottomNavigationBar: BottomAppBar(
-            color: Colors.transparent,
+            color: Colors.black26,
             child: _signUpButton(context),
             elevation: 0,
           ),
           body: Container(
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.black, Colors.white]
+                )
+            ),
             child: Center(
               child: SingleChildScrollView(
                 child: Center(
@@ -43,7 +50,7 @@ class _UserLoginState extends State<UserLogin> {
                       _createLogin(),
                       _rememberMeCheckBox(),
                       _logInButton(context),
-                      _alternateLogIn(),
+                      // _alternateLogIn(),
                       // _signUpButton(context)
                     ],
                   ),
@@ -62,20 +69,22 @@ class _UserLoginState extends State<UserLogin> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Email"),
+          // const Text("Email"),
           const SizedBox(height: 10.0),
           TextField(
             style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black38, width: 3.0),
+                  borderSide: const BorderSide(color: Colors.black38, width: 3.0),
+                  borderRadius: BorderRadius.circular(12),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
+                  borderSide: const BorderSide(
                       color: Color.fromARGB(221, 75, 75, 75), width: 2.0),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                prefixIcon: Icon(Icons.email_outlined, color: Colors.black38,),
-                labelText: 'Please enter your email!',
+                prefixIcon: const Icon(Icons.email_rounded, color: Colors.black38,),
+                hintText: 'Email!!!',
                 filled: true,
                 fillColor: Colors.transparent),
             onChanged: (String? email) {
@@ -85,20 +94,23 @@ class _UserLoginState extends State<UserLogin> {
             },
           ),
           const SizedBox(height: 10.0),
-          const Text("Password"),
+          // const Text("Password"),
           const SizedBox(height: 10.0),
           TextField(
             style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w400),
             obscureText: true,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black38, width: 3.0),
+                borderSide: const BorderSide(color: Colors.black38, width: 3.0),
+                borderRadius: BorderRadius.circular(12),
               ),
               enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                      color: Color.fromARGB(221, 75, 75, 75), width: 2.0)),
-              prefixIcon: Icon(Icons.lock_outline, color: Colors.black38,),
-              labelText: 'Password',
+                borderSide: const BorderSide(
+                      color: Color.fromARGB(221, 75, 75, 75), width: 2.0),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              prefixIcon: const Icon(Icons.lock_outline, color: Colors.black38,),
+              hintText: 'Password',
               filled: true,
               fillColor: Colors.transparent,
             ),
@@ -117,7 +129,7 @@ class _UserLoginState extends State<UserLogin> {
     return Container(
         margin: const EdgeInsets.only(left: 10, right: 10),
         child: TextButton(
-          child: const Text("Forgot Password?", style: TextStyle(color: Colors.black),),
+          child: const Text("Forgot Password?",),
           onPressed: () {
             print("pressed");
             // Navigator.of(context)
@@ -174,14 +186,17 @@ class _UserLoginState extends State<UserLogin> {
         const SizedBox(height: 10.0),
         SignInButton(
           Buttons.GoogleDark,
+          // mini: true,
           onPressed: () {},
         ),
         SignInButton(
-          Buttons.FacebookNew,
+          Buttons.GitHub,
+          // mini: true,
           onPressed: () {},
         ),
         SignInButton(
           Buttons.AppleDark,
+          // mini: true,
           onPressed: () {},
         ),
       ],
@@ -202,5 +217,6 @@ class _UserLoginState extends State<UserLogin> {
           },
         ));
   }
+
 
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375852998632",
+    "project_id": "sfree-4f54c",
+    "storage_bucket": "sfree-4f54c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375852998632:android:5cc4076b96b701de9b8e5d",
+        "android_client_info": {
+          "package_name": "com.sfree.sfree"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375852998632-arb6dm8bojgh84u3k5f8jie8vjs5eq23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ78pNJ6NZcke7sJqE9Txeu4gdaaa-PY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375852998632-arb6dm8bojgh84u3k5f8jie8vjs5eq23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
