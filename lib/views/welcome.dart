@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sfree/utils/mybuttons.dart';
+import 'package:sfree/views/login_page.dart';
 import 'package:sfree/views/user_login.dart';
 
 class Welcome extends StatelessWidget {
@@ -103,7 +104,7 @@ class Welcome extends StatelessWidget {
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
-            return const UserLogin();
+            return const LoginPage();
           }));
         },
         height: 60,

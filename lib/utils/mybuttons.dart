@@ -7,13 +7,13 @@ class MyButton extends StatelessWidget {
   final double height;
   final Color color;
 
-  const MyButton({Key? key,
-    required this.label,
-    required this.onTap,
-    required this.height,
-    required this.width,
-    required this.color
-  })
+  const MyButton(
+      {Key? key,
+      required this.label,
+      required this.onTap,
+      required this.height,
+      required this.width,
+      required this.color})
       : super(key: key);
 
   @override
@@ -25,12 +25,14 @@ class MyButton extends StatelessWidget {
         height: height,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(15),
           color: color,
         ),
         child: Text(
           label,
-          style: TextStyle(fontSize: 15.0, color: Colors.white),
+          style: const TextStyle(fontSize: 18, 
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
         ),
       ),
     );
