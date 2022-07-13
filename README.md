@@ -1,6 +1,6 @@
-# SFree -> Stress Free App
+# SFree
 
-A new Flutter project.
+A new Flutter project. -> Stress Free App
 
 ## Getting Started
 
