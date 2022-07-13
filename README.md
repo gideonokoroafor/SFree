@@ -1,4 +1,4 @@
-# SFree
+# SFree -> Stress Free App
 
 A new Flutter project.
 
