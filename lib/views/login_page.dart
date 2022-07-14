@@ -19,67 +19,69 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-    // Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _backgroundImage(),
-                  SizedBox(
-                    height: 0,
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _backgroundImage(),
+              // SizedBox(
+              //   height: 0,
+              // ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  'Welcome,',
+                  style: GoogleFonts.bebasNeue(
+                    fontSize: 52,
+                    color: Colors.black.withOpacity(0.8)
+                    // fontWeight: FontWeight.bold
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      'Welcome,',
-                      style: GoogleFonts.bebasNeue(
-                        fontSize: 52,
-                        // fontWeight: FontWeight.bold
-                      ),
-                      // style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.left,
-                    ),
+                  // style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              SizedBox(
+                height: 0,
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  'Sign in to continue!',
+                  style: TextStyle(
+                    fontSize: 25, 
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey.shade400
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Text(
-                      'Sign in to continue!',
-                      style: TextStyle(
-                        fontSize: 25, 
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey.shade400
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _inputEmail(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _inputPassword(),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  _logInButton(context),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  _signUpButton(context)
-                ]),
-          ],
-        ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              _inputEmail(),
+              SizedBox(
+                height: 10,
+              ),
+              _inputPassword(),
+              // SizedBox(
+              //   height: 0,
+              // ),
+              // _forgotPassword(),
+              SizedBox(
+                height: 10,
+              ),
+              _logInButton(context),
+              SizedBox(
+                height: 20,
+              ),
+              _signUpButton(context),
+              SizedBox(
+                height: 0,
+              ),
+              _forgotPassword(),
+            ]),
       ),
     );
   }
@@ -136,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
               return const HomePage();
             }));
           },
-          height: 60,
+          height: 50,
           width: 400,
           color: Colors.blueGrey.withOpacity(0.8)),
     );
@@ -175,6 +177,25 @@ class _LoginPageState extends State<LoginPage> {
           ),
         ),
       ),
+    );
+  }
+
+  _forgotPassword() {
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10),
+      child: Center(
+        child: TextButton(
+          child: const Text(
+            "Forgot Password?",
+          ),
+          onPressed: () {
+            // Navigator.of(context)
+            //     .push(MaterialPageRoute(builder: (BuildContext context) {
+            //   return ForgotPassword();
+            // }));
+          },
+        ),
+      )
     );
   }
 
