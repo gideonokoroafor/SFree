@@ -2,7 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sfree/utils/mybuttons.dart';
 import 'package:sfree/views/login_page.dart';
+import 'package:sfree/views/title_display.dart';
 import 'package:sfree/views/user_login.dart';
+
+import '../utils/curve_clippers.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({Key? key}) : super(key: key);
@@ -14,64 +17,18 @@ class Welcome extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             body: Container(
-              decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.black, Colors.white]
-                  )
+              color: Colors.blueGrey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  _welcomeImage(context),
+                  _displayNext(context)
+                ],
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(28.0),
-                child: Column(
-                  children: <Widget>[
-                    _displayIcon(),
-                    _displayText1(),
-                    _displayNext(context)
-                  ],
-                ),
-              ),
-              // child: Center(
-              //   child: Column(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: <Widget>[
-              //       const Icon(Icons.android, size: 200),
-              //       const Text("Welcome",
-              //         style: TextStyle(fontSize: 50),
-              //         textAlign: TextAlign.left,
-              //       ),
-              //       const Text("to",
-              //         style: TextStyle(fontSize: 25),
-              //         textAlign: TextAlign.left,
-              //       ),
-              //       const Text("Cooking with the",
-              //         style: TextStyle(fontSize: 25),),
-              //       const Text("Homies!!",
-              //         style: TextStyle(fontSize: 50),),
-              //       MyButton(label: 'Get Started',
-              //           onTap: () {
-              //             Navigator.of(context)
-              //                 .push(MaterialPageRoute(builder: (BuildContext context) {
-              //               return const UserLogin();
-              //             }));
-              //           },
-              //           height: 60,
-              //           width: 250,
-              //           color: Colors.purple)
-              //     ],
-              //   ),
-              // ),
             ),
           );
         }
       ),
-    );
-  }
-
-  _displayIcon(){
-    return const Align(
-      alignment: Alignment.center,
-      child: Icon(Icons.android, size: 200),
     );
   }
 
@@ -100,16 +57,35 @@ class Welcome extends StatelessWidget {
   }
   
   _displayNext(context){
-    return MyButton(label: 'Get Started',
+    return MyButton(label: 'Get Started!',
         onTap: () {
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
-            return const LoginPage();
+            return const TitleDisplay();
           }));
         },
         height: 60,
         width: 250,
-        color: Colors.purple);
+        color: Colors.transparent);
+  }
+
+  _welcomeImage(contex) {
+    Size size = MediaQuery.of(contex).size;
+    const double appPadding = 20.0;
+    return ClipPath(
+      clipper: CurveClipper(),
+      child: Container(
+        height: size.height * 0.55,
+        width: size.width,
+        color: Colors.blueGrey.withOpacity(0.8),
+        child: const Center(
+          child: Image(
+            image: AssetImage('assets/images/sfree3.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
   }
 
 }
