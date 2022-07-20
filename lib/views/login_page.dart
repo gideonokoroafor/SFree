@@ -1,44 +1,72 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, implementation_imports, unnecessary_import
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sfree/views/home_page.dart';
+import 'package:sfree/authentication/auth_page.dart';
 
+import '../authentication/fogort_password.dart';
 import '../utils/curve_clippers.dart';
 import '../utils/mybuttons.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  final VoidCallback showSignUpPage;
+  const LoginPage({Key? key, required this.showSignUpPage}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  // text controllers
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // sign in with email and password
+  Future signIn() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
+    }
+    // await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //     email: _emailController.text.trim(),
+    //     password: _passwordController.text.trim());
+  }
+
+  // dispose of controllers when not in use
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: SingleChildScrollView(
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _backgroundImage(),
-              // SizedBox(
-              //   height: 0,
-              // ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Text(
                   'Welcome,',
                   style: GoogleFonts.bebasNeue(
-                    fontSize: 52,
-                    color: Colors.black.withOpacity(0.8)
-                    // fontWeight: FontWeight.bold
-                  ),
+                      fontSize: 52, color: Colors.black.withOpacity(0.8)),
                   // style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                   textAlign: TextAlign.left,
                 ),
@@ -51,10 +79,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: Text(
                   'Sign in to continue!',
                   style: TextStyle(
-                    fontSize: 25, 
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey.shade400
-                  ),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey.shade400),
                 ),
               ),
               SizedBox(
@@ -65,10 +92,6 @@ class _LoginPageState extends State<LoginPage> {
                 height: 10,
               ),
               _inputPassword(),
-              // SizedBox(
-              //   height: 0,
-              // ),
-              // _forgotPassword(),
               SizedBox(
                 height: 10,
               ),
@@ -89,19 +112,22 @@ class _LoginPageState extends State<LoginPage> {
   _inputEmail() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: TextField(
-              decoration:
-                  InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Email')),
+      child: TextField(
+        controller: _emailController,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.white)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.blueGrey)),
+          hintText: 'Enter Email',
+          prefixIcon: Icon(
+            Icons.email,
+            color: Colors.blueGrey,
+          ),
+          fillColor: Colors.grey[200],
+          filled: true,
         ),
       ),
     );
@@ -110,18 +136,23 @@ class _LoginPageState extends State<LoginPage> {
   _inputPassword() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          border: Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(left: 15.0),
-          child: TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  border: InputBorder.none, hintText: 'Password')),
+      child: TextField(
+        obscureText: true,
+        controller: _passwordController,
+        decoration: InputDecoration(
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.white)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(color: Colors.blueGrey)),
+          hintText: 'Enter Password',
+          prefixIcon: Icon(
+            Icons.lock_rounded,
+            color: Colors.blueGrey,
+          ),
+          fillColor: Colors.grey[200],
+          filled: true,
         ),
       ),
     );
@@ -132,12 +163,13 @@ class _LoginPageState extends State<LoginPage> {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: MyButton(
           label: 'Sign In',
-          onTap: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (BuildContext context) {
-              return const HomePage();
-            }));
-          },
+          onTap: signIn,
+          // () {
+          //   Navigator.of(context)
+          //       .push(MaterialPageRoute(builder: (BuildContext context) {
+          //     return const SignInAuth();
+          //   }));
+          // },
           height: 50,
           width: 400,
           color: Colors.blueGrey.withOpacity(0.8)),
@@ -150,20 +182,29 @@ class _LoginPageState extends State<LoginPage> {
         'Not a member? ',
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
-      Text(
-        'Register now',
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+      GestureDetector(
+        onTap: widget.showSignUpPage,
+        // () {
+        //   Navigator.of(context)
+        //       .push(MaterialPageRoute(builder: (BuildContext context) {
+        //     return const SignUpPage();
+        //   }));
+        // },
+        child: Text(
+          'Register now',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+        ),
       ),
     ]);
   }
 
-  _backgroundImage(){
+  _backgroundImage() {
     Size size = MediaQuery.of(context).size;
     const double appPadding = 20.0;
     return ClipPath(
       clipper: CurveClipper(),
       child: Container(
-        height: size.height * 0.55,
+        height: size.height * .53,
         width: size.width,
         color: Colors.blueGrey.withOpacity(0.8),
         child: Padding(
@@ -182,21 +223,19 @@ class _LoginPageState extends State<LoginPage> {
 
   _forgotPassword() {
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10),
-      child: Center(
-        child: TextButton(
-          child: const Text(
-            "Forgot Password?",
+        margin: const EdgeInsets.only(left: 10, right: 10),
+        child: Center(
+          child: TextButton(
+            child: const Text(
+              "Forgot Password?",
+            ),
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (BuildContext context) {
+                return ForgotPasswordPage();
+              }));
+            },
           ),
-          onPressed: () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (BuildContext context) {
-            //   return ForgotPassword();
-            // }));
-          },
-        ),
-      )
-    );
+        ));
   }
-
 }
