@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -8,28 +11,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  // Widget build(BuildContext context) {
-  //   return const Scaffold(
-  //     body: Center(
-  //       child: Text(
-  //           "Welcome!!!!"
-  //       ),
-  //     ),
-  //   );
-  // }
+  final user = FirebaseAuth.instance.currentUser!;
 
+  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop:() async => false,
-      child: const Scaffold(
-        body: Center(
-          child: Text(
-            "Welcome!!!!"
-          ),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Welcome! ' + user.email!),
+            MaterialButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+              color: Colors.blueGrey,
+              child: const Text('Sign Out'),
+            )
+          ],
         ),
       ),
     );
   }
+
+  // Widget build(BuildContext context) {
+  //   return WillPopScope(
+  //     onWillPop:() async => false,
+  //     child: const Scaffold(
+  //       body: Center(
+  //         child: Text(
+  //           "Welcome!!!!"
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
 }
